@@ -2,11 +2,15 @@
     <iq:application entry="SailingApp" id="18fb04cf8b20498b95343a047a9ec8bc" launcherIcon="@Drawables.LauncherIcon" minSdkVersion="3.0.0" name="@Strings.AppName" type="watch-app" version="0.0.1">
         <iq:products>
             <iq:product id="vivoactive3"/>
+            <iq:product id="vivoactive3d"/>
             <iq:product id="vivoactive3m"/>
         </iq:products>
         <iq:permissions>
+            <iq:uses-permission id="Ant"/>
             <iq:uses-permission id="Fit"/>
+            <iq:uses-permission id="FitContributor"/>
             <iq:uses-permission id="Positioning"/>
+            <iq:uses-permission id="Sensor"/>
         </iq:permissions>
         <iq:languages>
             <iq:language>eng</iq:language>

@@ -12,6 +12,8 @@ class SailingView extends WatchUi.View {
     var _speed;
     var _maxspeed;
 
+	var mSessMaxSpeedField;
+	
     function initialize() {
         System.println("Start position request");
         View.initialize();
@@ -49,14 +51,13 @@ class SailingView extends WatchUi.View {
     function initializeFITsession() {
         System.println("initializeFITsession");
         
-        // final values
-        /*
-        mSessTotalArrowField = mSession.createField(Ui.loadResource(Rez.Strings.archery_totalarrow),
-            TOTAL_ARROWS_FIELD_ID, 
-            FitContributor.DATA_TYPE_UINT32, 
-            {:mesgType => FitContributor.MESG_TYPE_SESSION, :units=>Ui.loadResource(Rez.Strings.archery_unitarrow)}
+        // final values        
+        mSessMaxSpeedField = $.session.createField(WatchUi.loadResource(Rez.Strings.sail_maxspeed),
+            1, 
+            FitContributor.DATA_TYPE_FLOAT, 
+            {:mesgType => FitContributor.MESG_TYPE_SESSION, :units=>WatchUi.loadResource(Rez.Strings.sail_knots	)}
             );
-*/
+
     }
 
     function onPosition(info) {

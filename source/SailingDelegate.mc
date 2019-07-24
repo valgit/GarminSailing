@@ -63,6 +63,7 @@ class sailingMenuDelegate extends WatchUi.MenuInputDelegate {
             //TODO: better
             if ($.session != null && $.session.isRecording()) {
                 $.session.stop();
+                //mSessAvgTimePerEndField.setData(_maxspeed);                
                 $.session.save();
                 $.session = null;
                 System.println("Session saved");

@@ -5,4 +5,6 @@
     <string id="menu_label_2">Save</string>
     <string id="menu_label_3">Discard</string>
 
+    <string id="sail_maxspeed">Max Speed</string>  
+    <string id="sail_knots">Knots</string>  
 </strings>
