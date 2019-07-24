@@ -3,6 +3,10 @@ using Toybox.Lang;
 using Toybox.Activity;
 using Toybox.Timer;
 
+// global ?
+// bad design !!!
+var _maxspeed;
+var mSessMaxSpeedField;
 
 class SailingView extends WatchUi.View {
     var mps_to_kts = 1.943844492;
@@ -10,9 +14,8 @@ class SailingView extends WatchUi.View {
     var update_timer = null;
     var headingStr;    
     var _speed;
-    var _maxspeed;
-
-	var mSessMaxSpeedField;
+    //var _maxspeed;
+	
 	
     function initialize() {
         System.println("Start position request");

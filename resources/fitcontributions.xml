@@ -1,0 +1,8 @@
+ <fitContributions>
+		<!-- SESSION : Session Data Definitions -->
+		<fitField id="1" displayInActivitySummary="true" 
+			sortOrder = "0" 
+			precision="2"
+			dataLabel="@Strings.sail_maxspeed" 
+			unitLabel="@Strings.sail_knots"  />        		
+</fitContributions>
