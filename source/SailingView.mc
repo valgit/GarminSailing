@@ -94,9 +94,14 @@ class SailingView extends WatchUi.View {
        //accuracy = info.accuracy;
         _speed = (info.speed * 1.943844492);
         _maxspeed = (_maxspeed < _speed ) ? _speed : _maxspeed;
-        //System.println("speed "+ _speed + "(" + _maxspeed + ") heading : "+info.heading);
+        System.println("Gps speed "+ _speed + "(" + _maxspeed + ") heading : "+info.heading);
         
         //? Ui.requestUpdate();
+    }
+
+    function getCurrentSpeed() {
+        var info = Activity.getActivityInfo();
+        return info.currentSpeed;
     }
 
     // Load your resources here
@@ -188,7 +193,8 @@ class SailingView extends WatchUi.View {
         dc.drawText(width * 0.70 ,(height * 0.30), Graphics.FONT_NUMBER_THAI_HOT, knots, Graphics.TEXT_JUSTIFY_RIGHT);
         dc.drawText(width * 0.90 ,(height * 0.57), Graphics.FONT_LARGE, "kts", Graphics.TEXT_JUSTIFY_VCENTER);
 
-        //System.println("speed "+speed+" heading : "+headingStr );
+
+        System.println("cur speed : " + getCurrentSpeed() + " Gspeed "+ knots +" heading : "+headingStr );
         
         // Activity.Info elapsedDistance in meters
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
@@ -205,7 +211,10 @@ class SailingView extends WatchUi.View {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         var timer = activity.elapsedTime;
         if (timer == null) { timer = 0; }
-        timer = timer / 60 / 60 / 10;
+        timer = timer / 1000;
+        timer = timer / 60;
+        //timer = timer / 60 / 60 / 10;
+
         timer = (timer / 60).format("%02d") + ":" + (timer % 60).format("%02d");
         dc.drawText(width * 0.62, (height * 0.80), Graphics.FONT_TINY, timer, Graphics.TEXT_JUSTIFY_RIGHT);
         dc.drawText(width * 0.62, (height * 0.83), Graphics.FONT_XTINY, " h", Graphics.TEXT_JUSTIFY_LEFT);
