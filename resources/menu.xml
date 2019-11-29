@@ -1,5 +1,6 @@
 <menu id="MainMenu">
-    <menu-item id="resume" label="@Strings.menu_label_1" />
-    <menu-item id="save" label="@Strings.menu_label_2"/>
-    <menu-item id="discard" label="@Strings.menu_label_3"/>
+    <menu-item id="resume" label="@Strings.menu_label_resume" />
+    <menu-item id="save" label="@Strings.menu_label_save"/>
+    <menu-item id="discard" label="@Strings.menu_label_discard"/>
+    <menu-item id="wind" label="@Strings.menu_label_wind"/>
 </menu>

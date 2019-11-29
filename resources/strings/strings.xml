@@ -1,9 +1,10 @@
 <strings>
     <string id="AppName">Sail</string>
 
-    <string id="menu_label_1">Resume</string>
-    <string id="menu_label_2">Save</string>
-    <string id="menu_label_3">Discard</string>
+    <string id="menu_label_resume">Resume</string>
+    <string id="menu_label_save">Save</string>
+    <string id="menu_label_discard">Discard</string>
+    <string id="menu_label_wind">Wind Direction</string>
 
     <string id="sail_maxspeed">Max Speed</string>  
     <string id="sail_knots">Knots</string>  

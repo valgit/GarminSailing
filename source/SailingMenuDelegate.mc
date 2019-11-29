@@ -8,8 +8,8 @@ class SailingMenuDelegate extends WatchUi.MenuInputDelegate {
     }
 
     function onMenuItem(item) {
-        if (item == :item_1) {
-            System.println("item 1");
+        if (item == :wind) {
+            System.println("set wind direction");
         } else if (item == :item_2) {
             System.println("item 2");
         }

@@ -7,7 +7,8 @@ class SailingDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onMenu() {
-//        WatchUi.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), WatchUi.SLIDE_UP);
+        System.println("onMenu");
+        WatchUi.pushView(new Rez.Menus.MainMenu(), new SailingMenuDelegate(), WatchUi.SLIDE_UP);
         return true;
     }
 
@@ -29,7 +30,7 @@ class SailingDelegate extends WatchUi.BehaviorDelegate {
         }
         */
         if (key.getKey() == WatchUi.KEY_ENTER) {            
-            //System.println("Key pressed: ENTER");            
+            System.println("Key pressed: ENTER");            
             // Pass the input to the controller
         	//mController.onStartStop();
         	WatchUi.pushView(new Rez.Menus.MainMenu(), new sailingMenuDelegate(), WatchUi.SLIDE_UP);
@@ -50,11 +51,13 @@ class sailingMenuDelegate extends WatchUi.MenuInputDelegate {
 
     // Constructor
     function initialize() {
-        MenuInputDelegate.initialize();        
+        MenuInputDelegate.initialize();
+        System.println("menu dlg init");        
     }
 
     // Handle the menu input
     function onMenuItem(item) {
+    	System.println("onMenuItem");
         if (item == :resume) {
         	System.println("resume");            
             return true;
@@ -69,6 +72,9 @@ class sailingMenuDelegate extends WatchUi.MenuInputDelegate {
                 System.println("Session saved");
                 System.exit();
             }            
+            return true; // no session
+        } else if (item == :wind) {
+            System.println("wind");         
             return true;
         } else { 
             //TODO: better
@@ -79,8 +85,8 @@ class sailingMenuDelegate extends WatchUi.MenuInputDelegate {
                 System.println("Session discard");
                 System.exit();
             }                      
-            return true;
-        }
+            return true; // no session
+        } 
         return false;
     }
 
