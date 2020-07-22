@@ -10,6 +10,11 @@ class SailingMenuDelegate extends WatchUi.MenuInputDelegate {
     function onMenuItem(item) {
         if (item == :wind) {
             System.println("set wind direction");
+            WatchUi.pushView(
+                new CompassView(), 
+        	    new CompassDelegate(), 
+        	    WatchUi.SLIDE_DOWN);
+                
         } else if (item == :item_2) {
             System.println("item 2");
         }

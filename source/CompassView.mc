@@ -48,7 +48,7 @@ class CompassView extends Ui.View {
     
 	function onUpdate(dc) {  
 
-	    dc.setColor(Gfx.COLOR_TRANSPARENT, getColor(App.getApp().getProperty("color_background"), Graphics.COLOR_BLACK));
+	    dc.setColor(Gfx.COLOR_TRANSPARENT, Graphics.COLOR_BLACK);
         dc.clear();  
                
 		var actInfo = Sensor.getInfo();
@@ -177,6 +177,8 @@ class CompassView extends Ui.View {
 	}
      
    	function getColor(color_property, color_default){
+   		return color_default;
+   		/*
    		switch(color_property){
    			case 1:
    				return Gfx.COLOR_BLUE;
@@ -208,6 +210,15 @@ class CompassView extends Ui.View {
    				return Gfx.COLOR_BLACK;
    			default:
    				return color_default;
-   		}
+   		}*/
     }         
+}
+
+
+class CompassDelegate extends Ui.BehaviorDelegate {
+
+    function initialize() {
+        BehaviorDelegate.initialize();
+    }
+
 }
