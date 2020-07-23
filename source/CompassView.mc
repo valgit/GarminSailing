@@ -3,6 +3,24 @@ using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
 using Toybox.Timer;
 
+/* handle the correct heading from API */
+function getHeading() {
+	var actInfo = Sensor.getInfo();
+	heading_rad = actInfo.heading;
+		
+	if( heading_rad != null) {
+		var map_declination =  0.0;
+		heading_rad= heading_rad+map_declination*Math.PI/180;			
+			
+		if( heading_rad < 0 ) {
+			heading_rad = 2*Math.PI+heading_rad;
+		}
+		return heading_rad;
+	}
+	return 0;
+}
+
+
 class CompassView extends Ui.View {
 
     hidden var RAY_EARTH = 6378137; 
@@ -50,47 +68,25 @@ class CompassView extends Ui.View {
 
 	    dc.setColor(Gfx.COLOR_TRANSPARENT, Graphics.COLOR_BLACK);
         dc.clear();  
-               
-		var actInfo = Sensor.getInfo();
-		heading_rad = actInfo.heading;
-		
-		if( heading_rad != null) {
-			var map_declination =  App.getApp().getProperty("map_declination");
-			if (map_declination != null ) {
-				if(map_declination instanceof Toybox.Lang.String) {
-					map_declination = map_declination.toFloat();
-				}	
-				heading_rad= heading_rad+map_declination*Math.PI/180;
-			}
-			
-			if( heading_rad < 0 ) {
-				heading_rad = 2*Math.PI+heading_rad;
-			}
-            							
-			var display_logo_orientation = App.getApp().getProperty("display_logo_orientation");
-			
-            if( display_logo_orientation ){
-            	drawLogoOrientation(dc, center_x, center_y, size_max, heading_rad);
-			}
-			
-			var display_text_orientation = App.getApp().getProperty("display_text_orientation");
-			
-			if( display_text_orientation ){
-				var y = center_y ;
-				var size = size_max;
 
-				drawTextOrientation(dc, center_x, y, size, heading_rad);
-			}
+		heading_rad = getHeading();
+		           							
+		drawLogoOrientation(dc, center_x, center_y, size_max, heading_rad);
 						
-			var display_compass = App.getApp().getProperty("display_compass");
-			if( display_compass ){
-				drawCompass(dc, center_x, center_y, size_max);
-			}
+		var display_text_orientation = App.getApp().getProperty("display_text_orientation");
+			
+		if( display_text_orientation ){
+			var y = center_y ;
+			var size = size_max;
+
+			drawTextOrientation(dc, center_x, y, size, heading_rad);
 		}
+						
+		drawCompass(dc, center_x, center_y, size_max);
 	}
     
 	function drawTextOrientation(dc, center_x, center_y, size, orientation){
-		var color = getColor(App.getApp().getProperty("color_text_orientation"), Graphics.COLOR_LT_GRAY);
+		var color = Graphics.COLOR_LT_GRAY;
 		var fontOrientaion;
 		var fontMetric = Graphics.FONT_TINY;
 
@@ -111,9 +107,9 @@ class CompassView extends Ui.View {
 	}
 	   
 	function drawCompass(dc, center_x, center_y, size) {
-		var colorText = getColor(App.getApp().getProperty("color_text_compass"), Graphics.COLOR_WHITE);
-		var colorTextNorth = getColor(App.getApp().getProperty("color_text_north"), Graphics.COLOR_WHITE);
-		var colorCompass = getColor(App.getApp().getProperty("color_compass"), Graphics.COLOR_RED);
+		var colorText = Graphics.COLOR_WHITE;
+		var colorTextNorth = Graphics.COLOR_WHITE;
+		var colorCompass = Graphics.COLOR_RED;
 		var radius = size/2-12;
 		var font=Graphics.FONT_MEDIUM;
 		var penWidth = 8;
@@ -150,7 +146,7 @@ class CompassView extends Ui.View {
 	}
     
 	function drawLogoOrientation(dc, center_x, center_y, size, orientation){
-		var color = getColor(App.getApp().getProperty("color_orientation_logo"), Graphics.COLOR_WHITE);
+		var color = Graphics.COLOR_WHITE;
 		var radius=size/3.10;
 		
 		dc.setColor(color, Graphics.COLOR_TRANSPARENT);
@@ -176,42 +172,7 @@ class CompassView extends Ui.View {
 		return [Math.ceil(x), Math.ceil(y)];
 	}
      
-   	function getColor(color_property, color_default){
-   		return color_default;
-   		/*
-   		switch(color_property){
-   			case 1:
-   				return Gfx.COLOR_BLUE;
-   			case 2:
-   				return Gfx.COLOR_DK_BLUE;
-   			case 3:
-   				return Gfx.COLOR_GREEN;
-   			case 4:
-   				return Gfx.COLOR_DK_GREEN;
-   			case 5:
-   				return Gfx.COLOR_LT_GRAY;
-   			case 6:
-   				return Gfx.COLOR_DK_GRAY;
-   			case 7:
-   				return Gfx.COLOR_ORANGE;
-   			case 8:
-   				return Gfx.COLOR_PINK;
-   			case 9:
-   				return Gfx.COLOR_PURPLE;
-   			case 10:
-   				return Gfx.COLOR_RED;
-   			case 11:
-   				return Gfx.COLOR_DK_RED;
-   			case 12:
-   				return Gfx.COLOR_YELLOW;
-   			case 13:
-   				return Gfx.COLOR_WHITE;
-   			case 14:
-   				return Gfx.COLOR_BLACK;
-   			default:
-   				return color_default;
-   		}*/
-    }         
+   	
 }
 
 
@@ -221,4 +182,40 @@ class CompassDelegate extends Ui.BehaviorDelegate {
         BehaviorDelegate.initialize();
     }
 
+ 	// Handle the back action    
+    function onSelect() {     
+        System.println("onSelect");
+
+		var actInfo = Sensor.getInfo();
+		var wind_heading = getHeading();
+		wind_heading = wind_heading * 180.0 / Math.PI ;
+
+		System.println("set wind direction to : "+ wind_heading);
+		WatchUi.popView(WatchUi.SLIDE_UP);
+		// return false so that the InputDelegate method gets called. this will
+        // allow us to know what kind of input cause the back behavior
+        //return false;  // allow InputDelegate function to be called
+        return true; // handle it
+    }
+
+	// Key pressed
+    function onKey(key) {
+    	//System.println("onKey : " + key);
+    	// maybe better ? 
+		/*
+       	if (WatchUi.KEY_START == key || WatchUi.KEY_ENTER == key) {
+            return onSelect();
+        }*/
+        
+        if (key.getKey() == WatchUi.KEY_ENTER) {            
+            //System.println("Key pressed: ENTER");            
+ 			return onSelect();        	
+            //return true;
+        }
+        // KEY_LAP KEY_START
+        //System.println("Key pressed: " + key.getKey() );
+        // next = 8
+        // prev = 13
+        return false; // allow InputDelegate function to be called
+    }
 }
